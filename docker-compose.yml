@@ -27,7 +27,7 @@ services:
       - "PSQL_DBNAME=luis_banderasdb"
       - "PSQL_USERNAME=luis_banderas"
       - "PSQL_PASS=LuisBandera123"
-      - "PSQL_HOST=172.24.0.4" # You must use the command of the README.md file in order to get this IP address
+      - "PSQL_HOST=172.24.0.2" # You must use the command of the README.md file in order to get this IP address
       - "PSQL_PORT=5522"
     volumes:
       - "/home/luis_banderas/django/Django-REST-Exercise:/usr/src/django/library"
