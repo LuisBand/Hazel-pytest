@@ -122,3 +122,17 @@ def test_category_inList(nombre):
 
     assert inList == True
 
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    'nombre',
+    (
+        ('Novel'),
+        ('History'),
+        ('Horror')
+    )
+)
+def test_category_creation(nombre):
+    category = Category.objects.create(name=nombre)
+    print('Category added: ', category.name)
+    assert Category.objects.all().count() == 1
