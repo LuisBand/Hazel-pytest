@@ -27,12 +27,12 @@ jobs:
       #   run: |
       #     docker-compose --env-file .env.stg up -d web22
       #Nuevos Cambios
-      # - name: Run docker container postgres
-      #   run: |
-      #     docker-compose --env-file .env.stg up -d postgres_db22
-      # - name: Verifying net
-      #   run: |
-      #     docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" postgres22
-      # - name: Run docker container web
-      #   run: |
-      #     docker-compose --env-file .env.stg up -d web22
+      - name: Run docker container postgres
+        run: |
+          docker-compose --env-file .env.stg up -d postgres_db22
+      - name: Verifying net
+        run: |
+          docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" postgres22
+      - name: Run docker container web
+        run: |
+          docker-compose --env-file .env.stg up -d web22
