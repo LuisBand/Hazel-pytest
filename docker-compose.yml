@@ -1,18 +1,16 @@
 version: '3'
 services:
-  # DON'T FORGET TO CHANGE THE XX WITH YOUR PORT
-  # YOUR_USER WITH YOUR UNIX USER
   postgres_db22:
     image: postgres:14-alpine
-    container_name: "postgres${PORT}"
+    container_name: postgres22
     environment:
-      - "POSTGRES_PASSWORD=${PSQL_PASS}"
-      - "POSTGRES_DB=${PSQL_DB}"
-      - "POSTGRES_USER=${PSQL_USER}"
+      - POSTGRES_PASSWORD=LuisBandera123
+      - POSTGRES_DB=musirockstars_db
+      - POSTGRES_USER=luis_banderas
     ports:
-      - "100${PORT}:55${PORT}"
+      - 10022:5522
     volumes:
-      - "${POSTGRES_VOLUME_PATH}:/usr/src/postgres"
+      - /home/luis_banderas/postgres:/usr/src/postgres
     networks:
       - our-library-net
     command: -p 5522
@@ -20,21 +18,21 @@ services:
   web22:
     build: .
     image: my-django-image22:2.0.0
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:80${PORT}"
-    container_name: "django${PORT}"
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8022"
+    container_name: django22
     depends_on: 
       - postgres_db22
     environment:
-      - "PSQL_DBNAME=${PSQL_DB}"
-      - "PSQL_USERNAME=${PSQL_USER}"
-      - "PSQL_PASS=${PSQL_PASS}"
-      - "PSQL_HOST=postgres_db${PORT}"
-      - "PSQL_PORT=55${PORT}"
-      - "JWT_TOKEN_TIME=${JWT_TOKEN_TIME}"
+      - PSQL_DBNAME=musirockstars_db
+      - PSQL_USERNAME=luis_banderas
+      - PSQL_PASS=LuisBandera123
+      - PSQL_HOST=postgres_db22
+      - PSQL_PORT=5522
+      - JWT_TOKEN_TIME=120
     volumes:
-      - "${DJANGO_VOLUME_PATH}:/usr/src/django/library"
+      - /home/luis_banderas/django/Hazel-pytest:/usr/src/django/library
     ports:
-      - "90${PORT}:80${PORT}"
+      - 9022:8022
     networks:
       - our-library-net
 
@@ -42,45 +40,3 @@ networks:
   our-library-net:
     external: true
     driver: bridge
-
-# version: '3'
-# services:
-#   postgres_db:
-#     image: postgres:14-alpine
-#     container_name: "postgres44"
-#     environment:
-#       - "POSTGRES_PASSWORD=SecretPassword123"
-#       - "POSTGRES_DB=hazel_mtzdb"
-#       - "POSTGRES_USER=hazel_mtz"
-#     ports:
-#       - "10044:5544"
-#     volumes:
-#       - "/home/hazel_mtz/postgres:/usr/src/postgres"
-#     networks:
-#       - our-library-net
-#     command: -p 5544
-
-#   web:
-#     build: .
-#     command: bash -c "python manage.py makemigrations && python manage.py migrate && pytest && python manage.py runserver 0.0.0.0:8044"
-#     container_name: "django44"
-#     depends_on: 
-#       - postgres_db
-#     environment:
-#       - "PSQL_DBNAME=hazel_mtzdb"
-#       - "PSQL_USERNAME=hazel_mtz"
-#       - "PSQL_PASS=SecretPassword123"
-#       - "PSQL_HOST=172.24.0.21" # You must use the previous command in order to get this HOST
-#       - "PSQL_PORT=5544"
-#     volumes:
-#     # "RUTA/DEL/SERVIDOR:RUTA/DENTRO/DEL/CONTENEDOR"
-#       - "/home/hazel_mtz/django/library:/usr/src/django/library"
-#     ports:
-#       - "9044:8044"
-#     networks:
-#       - our-library-net
-
-# networks:
-#   our-library-net:
-#     external: true
-#     driver: bridge
